@@ -223,6 +223,56 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
 .guide b{color:var(--ink);font-weight:600}
 .sync-state{margin:0;font-size:15px;display:flex;flex-direction:column;gap:4px}
 .sync-state .big{font-weight:600}
+/* mood nudge */
+.nudge{display:flex;flex-direction:column;gap:12px;border-radius:var(--r);padding:16px;background:var(--surface-2)}
+.nudge[data-m="1"]{background:color-mix(in srgb,var(--m1) 26%,var(--surface))}
+.nudge[data-m="2"]{background:color-mix(in srgb,var(--m2) 28%,var(--surface))}
+.nudge[data-m="3"]{background:color-mix(in srgb,var(--m3) 34%,var(--surface))}
+.nudge[data-m="4"]{background:color-mix(in srgb,var(--m4) 30%,var(--surface))}
+.nudge[data-m="5"]{background:color-mix(in srgb,var(--m5) 30%,var(--surface))}
+.nudge-text{margin:0;font-size:15.5px;max-width:60ch}
+.nudge-sub{margin:-6px 0 0;font-size:13px;color:var(--ink-2)}
+.nudge-actions{display:flex;gap:8px;flex-wrap:wrap}
+.memory{background:var(--surface);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.memory-label{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.memory-text{margin:0;font-family:var(--display);font-size:23px;line-height:1.3;overflow-wrap:anywhere}
+.memory-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* thinking habits */
+.habits-q{margin:0 0 8px;font-size:14px;font-weight:600}
+.habits-q .hint{font-weight:400;margin-left:4px}
+.habit-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.habit{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 10px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;color:var(--ink);min-width:0;font:inherit}
+.habit b{font-size:13.5px;font-weight:600;word-break:keep-all}
+.habit span{font-size:12px;color:var(--ink-2);line-height:1.4}
+.habit[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);box-shadow:inset 0 0 0 1px var(--accent)}
+.reframe-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.reframe-list li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14.5px}
+.reframe-list b{display:block;font-size:12.5px;color:var(--accent);font-weight:600;margin-bottom:2px}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:12.5px;background:var(--accent-soft);color:var(--ink);border-radius:999px;padding:2px 10px;white-space:nowrap}
+.hbars{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hbar{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr) 3em;gap:10px;align-items:center;font-size:14px}
+.hbar-name{word-break:keep-all;line-height:1.35}
+.hbar-track{height:10px;background:var(--surface-2);border-radius:99px;overflow:hidden}
+.hbar-fill{display:block;height:100%;background:var(--accent);border-radius:99px}
+.hbar-n{text-align:right;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tip{margin:0;font-size:14px;background:var(--accent-soft);border-radius:12px;padding:10px 14px}
+.tip:empty{display:none}
+
+/* wins box */
+.pick{background:var(--sun-soft);background:color-mix(in srgb,var(--m5) 30%,var(--surface));border-radius:var(--r);padding:18px;display:flex;flex-direction:column;gap:8px}
+.pick-label{font-size:12.5px;color:var(--ink-2);font-weight:600}
+.pick-text{margin:0;font-family:var(--display);font-size:29px;line-height:1.3;overflow-wrap:anywhere}
+.pick-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.box-list{display:flex;flex-direction:column;gap:20px}
+.box-month h3{margin:0 0 8px;font-size:14px;color:var(--ink-2);font-weight:600;font-variant-numeric:tabular-nums}
+.box-month ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.box-item{display:flex;gap:12px;align-items:baseline;width:100%;text-align:left;border:0;background:var(--sun-soft);border-radius:12px;padding:10px 14px;color:var(--ink);cursor:pointer;font:inherit}
+.box-item:hover{box-shadow:inset 0 0 0 1px var(--sun)}
+.box-date{font-size:12.5px;color:var(--ink-2);flex:none;width:58px;font-variant-numeric:tabular-nums}
+.box-txt{flex:1;min-width:0;overflow-wrap:anywhere}
+
 /* entry lock */
 .gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px 16px calc(24px + env(safe-area-inset-bottom,0px));overflow:auto}
 .gate-card{width:100%;max-width:360px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;margin:auto}
@@ -270,7 +320,8 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
     </div>
     <nav class="tabs" role="tablist" aria-label="화면">
       <button class="tab" role="tab" id="tab-today" data-view="today" aria-controls="view-today">오늘</button>
-      <button class="tab" role="tab" id="tab-parked" data-view="parked" aria-controls="view-parked">생각 보관함 <span class="badge" id="parkBadge" hidden></span></button>
+      <button class="tab" role="tab" id="tab-parked" data-view="parked" aria-controls="view-parked">보관함 <span class="badge" id="parkBadge" hidden></span></button>
+      <button class="tab" role="tab" id="tab-wins" data-view="wins" aria-controls="view-wins">잘한 일</button>
       <button class="tab" role="tab" id="tab-flow" data-view="flow" aria-controls="view-flow">기분 흐름</button>
     </nav>
   </header>
@@ -292,6 +343,7 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
       <section class="block" aria-labelledby="moodH">
         <div class="block-head"><h2 id="moodH">마음 날씨</h2><span class="hint" id="moodLabel">지금 마음과 가까운 표정을 골라요</span></div>
         <div class="moods" id="moods" role="radiogroup" aria-labelledby="moodH"></div>
+        <div class="nudge" id="nudge" hidden aria-live="polite"></div>
       </section>
 
       <section class="block" aria-labelledby="diaryH">
@@ -300,7 +352,7 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
       </section>
 
       <section class="block" aria-labelledby="winsH">
-        <div class="block-head"><h2 id="winsH">잘한 일 · 고마운 일</h2><span class="hint">아주 작은 것도 괜찮아요</span></div>
+        <div class="block-head"><h2 id="winsH">잘한 일 · 고마운 일</h2><span class="hint">아주 작은 것도 괜찮아요 · <button class="linkbtn" type="button" id="openBox">상자 보기</button></span></div>
         <form class="addrow" id="winForm" autocomplete="off">
           <input type="text" id="winInput" placeholder="예: 점심을 천천히 맛있게 먹었다" aria-label="잘한 일이나 고마운 일">
           <button class="btn soft" type="submit" id="winAdd">추가</button>
@@ -342,6 +394,30 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
       </details>
     </section>
 
+    <!-- 잘한 일 상자 -->
+    <section class="view" id="view-wins" role="tabpanel" aria-labelledby="tab-wins" hidden>
+      <div>
+        <h1 class="view-title">잘한 일 상자</h1>
+        <p class="lead">지금까지 담아 둔 잘한 일과 고마운 일이에요. 마음이 흐린 날 하나씩 꺼내 보세요.</p>
+      </div>
+      <div class="pick" id="pickCard" hidden>
+        <span class="pick-label">상자에서 꺼낸 하나</span>
+        <p class="pick-text" id="pickText"></p>
+        <div class="pick-foot"><span class="hint" id="pickDate"></span><button class="btn soft small" type="button" id="pickAgain">다른 것 꺼내기</button></div>
+      </div>
+      <section class="block" aria-labelledby="boxAddH">
+        <div class="block-head"><h2 id="boxAddH">오늘 담기</h2><span class="hint">오늘 날짜로 담겨요</span></div>
+        <form class="addrow" id="boxForm" autocomplete="off">
+          <input type="text" id="boxInput" placeholder="예: 어려운 이야기를 차분하게 꺼냈다" aria-label="오늘 잘한 일이나 고마운 일">
+          <button class="btn soft" type="submit" id="boxAdd">담기</button>
+        </form>
+      </section>
+      <section class="block" aria-labelledby="boxListH">
+        <div class="block-head"><h2 id="boxListH">모아 둔 기록</h2><span class="hint" id="boxCount"></span></div>
+        <div class="box-list" id="boxList"></div>
+      </section>
+    </section>
+
     <!-- 기분 흐름 -->
     <section class="view" id="view-flow" role="tabpanel" aria-labelledby="tab-flow" hidden>
       <div>
@@ -358,6 +434,11 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
           <svg id="chart" role="img" aria-label="기간별 마음 날씨 그래프"></svg>
           <p class="chart-empty" id="chartEmpty" hidden>이 기간에는 아직 마음 날씨 기록이 없어요. '오늘' 화면에서 표정을 고르면 여기에 흐름이 그려져요.</p>
         </div>
+      </section>
+      <section class="block" aria-labelledby="habitH">
+        <div class="block-head"><h2 id="habitH">자주 나온 생각 습관</h2><span class="hint" id="habitRange"></span></div>
+        <ul class="hbars" id="habitBars"></ul>
+        <p class="tip" id="habitTip"></p>
       </section>
       <section class="block" aria-labelledby="monthTitle">
         <div class="cal-head">
@@ -407,6 +488,14 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
     </div>
     <p class="from-park" id="trFrom" hidden>보관함에서 가져온 생각이에요. 두 번째 칸에 미리 넣어 뒀어요.</p>
     <textarea id="trText" rows="5" aria-labelledby="trQ"></textarea>
+    <div class="habits" id="trHabits" hidden>
+      <p class="habits-q">이 생각에 섞인 생각 습관이 있나요?<span class="hint">골라도 되고, 안 골라도 돼요</span></p>
+      <div class="habit-grid" id="habitGrid"></div>
+    </div>
+    <div class="reframe" id="trReframe" hidden>
+      <p class="habits-q">고른 생각 습관을 이렇게 다시 볼 수 있어요</p>
+      <ul class="reframe-list" id="reframeList"></ul>
+    </div>
     <div class="sheet-foot">
       <button class="btn ghost" type="button" id="trPrev">이전</button>
       <div class="foot-r">
@@ -485,7 +574,19 @@ var STEPS=[
   {key:'friend',label:'친구라면',q:'아끼는 친구가 같은 일을 겪었다면, 뭐라고 말해줄까요?',help:'친구에게 하듯 같은 따뜻함으로, 나에게 적어요.',ph:'예: 고칠 부분이 생기는 건 흔한 일이야. 그동안 준비한 것도 많잖아.'},
   {key:'step',label:'다음 한 걸음',q:'다음 한 걸음은 무엇일까요?',help:'작고 구체적인 것 하나면 충분해요.',ph:'예: 내일 10분만 같이 확인해 보자고 말하기.'}
 ];
+var HABITS=[
+  {k:'mind',name:'남의 마음 짐작하기',ex:'다들 날 별로라고 생각할 거야',q:'그 사람이 정말 그렇게 말했나요, 내가 짐작한 건가요?'},
+  {k:'label',name:'나에게 꼬리표 붙이기',ex:'나는 능력이 없어, 나는 한심해',q:'한 번의 일이 나라는 사람 전체를 말해 주나요?'},
+  {k:'overgen',name:'하나로 전부 판단하기',ex:'하나 틀렸으니 다 망했어',q:'정말 전부 그런가요? 잘된 부분은 없었나요?'},
+  {k:'allnone',name:'완벽 아니면 실패',ex:'완벽하지 않으면 다 소용없어',q:'0점과 100점 사이라면 몇 점쯤일까요?'},
+  {k:'discount',name:'잘한 건 빼고 보기',ex:'잘한 건 당연하고 실수만 크게 보여',q:'오늘 잘한 것도 실수와 같은 무게로 세어 볼까요?'},
+  {k:'future',name:'앞일을 나쁘게 단정하기',ex:'앞으로도 계속 이럴 거야',q:'앞일을 정말 알 수 있나요? 다르게 될 가능성은요?'},
+  {k:'should',name:'"~해야만 해" 규칙',ex:'실수하면 안 돼, 늘 잘해야 해',q:'"~해야만 해"를 "~하면 좋겠다"로 바꿔 보면 어떤가요?'},
+  {k:'emotion',name:'느낌을 사실로 여기기',ex:'한심하게 느껴지니까 난 한심한 거야',q:'그 느낌 말고, 사실은 무엇을 말해 주나요?'}
+];
+var HMAP={};HABITS.forEach(function(x){HMAP[x.k]=x;});
 var WD=['일','월','화','수','목','금','토'];
+var VIEWS=['today','parked','wins','flow'];
 var LS_KEY='malgeum-diary-v1';
 var SYNC_KEY='malgeum-sync-v1';
 var SVGNS='http://www.w3.org/2000/svg';
@@ -544,7 +645,7 @@ function normDay(o,k){o=o||{};return {
   mood:(typeof o.mood==='number'&&o.mood>=1&&o.mood<=5)?o.mood:null,
   diary:typeof o.diary==='string'?o.diary:'',
   wins:Array.isArray(o.wins)?o.wins.filter(function(w){return w&&typeof w.text==='string';}).map(function(w){return {id:String(w.id||newId()),text:w.text};}):[],
-  thoughts:Array.isArray(o.thoughts)?o.thoughts.filter(function(t){return t&&typeof t==='object';}).map(function(t){return {id:String(t.id||newId()),fact:String(t.fact||''),thought:String(t.thought||''),friend:String(t.friend||''),step:String(t.step||''),createdAt:String(t.createdAt||'')};}):[],
+  thoughts:Array.isArray(o.thoughts)?o.thoughts.filter(function(t){return t&&typeof t==='object';}).map(function(t){return {id:String(t.id||newId()),fact:String(t.fact||''),thought:String(t.thought||''),friend:String(t.friend||''),step:String(t.step||''),createdAt:String(t.createdAt||''),habits:Array.isArray(t.habits)?t.habits.filter(function(x){return !!HMAP[x];}):[]};}):[],
   updatedAt:typeof o.updatedAt==='string'?o.updatedAt:''
 };}
 function normItem(i){
@@ -851,7 +952,7 @@ function renderSyncPanel(){
 function dueItems(){var tk=todayKey();return S.parked.items.filter(function(i){return i.status!=='released'&&i.day<tk;}).sort(function(a,b){return (a.createdAt||'').localeCompare(b.createdAt||'');});}
 
 function renderTabs(){
-  ['today','parked','flow'].forEach(function(v){
+  VIEWS.forEach(function(v){
     var on=S.view===v;$('#tab-'+v).setAttribute('aria-selected',String(on));$('#tab-'+v).tabIndex=on?0:-1;$('#view-'+v).hidden=!on;
   });
   var n=S.ready?dueItems().length:0,b=$('#parkBadge');b.hidden=!n;b.textContent=n;
@@ -859,7 +960,120 @@ function renderTabs(){
 }
 function renderAll(){
   renderTabs();renderStatus();renderPrivacy();
-  if(S.view==='today')renderToday();else if(S.view==='parked')renderParked();else renderFlow();
+  if(S.view==='today')renderToday();else if(S.view==='parked')renderParked();else if(S.view==='wins')renderBox();else renderFlow();
+}
+
+/* ---------- wins box helpers ---------- */
+function allWins(){
+  var out=[];
+  Object.keys(S.days).forEach(function(k){S.days[k].wins.forEach(function(w,i){out.push({id:w.id,text:w.text,date:k,i:i});});});
+  out.sort(function(a,b){return a.date===b.date?a.i-b.i:b.date.localeCompare(a.date);});
+  return out;
+}
+function winPool(exclude){return allWins().filter(function(w){return w.date!==exclude;});}
+function pickWin(exclude){
+  var list=winPool(exclude);if(!list.length)return null;
+  for(var i=0;i<list.length;i++)if(list[i].id===S.pickWin)return list[i];
+  var w=list[Math.floor(Math.random()*list.length)];S.pickWin=w.id;return w;
+}
+function rerollWin(exclude){
+  var list=winPool(exclude);if(list.length<2)return;
+  var w;do{w=list[Math.floor(Math.random()*list.length)];}while(w.id===S.pickWin);
+  S.pickWin=w.id;
+}
+function focusEl(sel){
+  var el=$(sel);if(!el)return;
+  el.scrollIntoView({block:'center',behavior:'smooth'});
+  setTimeout(function(){try{el.focus({preventScroll:true});}catch(e){el.focus();}},280);
+}
+function memoryCard(w,exclude,onAgain){
+  var more=winPool(exclude).length>1;
+  return h('div',{class:'memory'},
+    h('span',{class:'memory-label',text:'예전에 담아 둔 잘한 일'}),
+    h('p',{class:'memory-text',text:w.text}),
+    h('div',{class:'memory-foot'},
+      h('span',{class:'hint',text:fmtShort(w.date)+'에 담았어요'}),
+      more?h('button',{class:'btn ghost small',type:'button',onclick:function(){rerollWin(exclude);onAgain();}},'다른 것 꺼내기'):null));
+}
+
+/* ---------- mood nudge ---------- */
+function renderNudge(){
+  var n=$('#nudge'),tk=todayKey(),d=dayOf(S.date);
+  if(!S.ready||S.date!==tk||!d.mood){n.hidden=true;n.replaceChildren();return;}
+  var m=d.mood,done=false,text,acts=[];
+  function btn(label,cls,fn){return h('button',{class:'btn small '+cls,type:'button',onclick:fn},label);}
+  if(m<=2){
+    if(d.thoughts.length){done=true;text='오늘 생각 정리를 했어요. 그것만으로도 충분해요. 이제 조금 쉬어도 괜찮아요.';}
+    else{
+      text=(m===1?'많이 힘든 날이네요. ':'조금 흐린 날이네요. ')+'마음에 걸리는 일이 있다면 네 가지 질문으로 천천히 정리해 볼까요?';
+      acts.push(btn('생각 정리 시작','primary',function(){openTr(null);}));
+      acts.push(btn('보관함에 내려놓기','ghost',function(){setView('parked');setTimeout(function(){$('#parkInput').focus();},60);}));
+    }
+  }else if(m===3){
+    if(d.diary.trim()){done=true;text='오늘 일기를 적었어요. 그거면 충분해요.';}
+    else{text='그저 그런 날도 괜찮아요. 오늘 있었던 일을 한 줄만 적어 볼까요?';acts.push(btn('일기 한 줄 쓰기','primary',function(){focusEl('#diary');}));}
+  }else{
+    if(d.wins.length){done=true;text='오늘 잘한 일 '+d.wins.length+'개를 상자에 담았어요. 흐린 날 꺼내 볼 수 있어요.';}
+    else{
+      text=(m===5?'맑은 날이네요! ':'괜찮은 날이네요. ')+'오늘 잘한 일 하나를 상자에 담아 둘까요? 흐린 날 꺼내 볼 수 있어요.';
+      acts.push(btn('잘한 일 담기','primary',function(){focusEl('#winInput');}));
+    }
+  }
+  var parts=[h('p',{class:'nudge-text',text:text})];
+  if(!done)parts.push(h('p',{class:'nudge-sub',text:'다른 칸은 비워 둬도 괜찮아요.'}));
+  if(acts.length)parts.push(h('div',{class:'nudge-actions'},acts));
+  if(m<=2){var w=pickWin(tk);if(w)parts.push(memoryCard(w,tk,renderNudge));}
+  n.dataset.m=String(m);n.hidden=false;
+  n.replaceChildren.apply(n,parts);
+}
+
+/* ---------- wins box view ---------- */
+function renderBox(){
+  var list=allWins(),ready=S.ready;
+  $('#boxInput').disabled=!ready;$('#boxAdd').disabled=!ready;
+  var dayset={};list.forEach(function(w){dayset[w.date]=1;});
+  $('#boxCount').textContent=list.length?'모두 '+list.length+'개 · '+Object.keys(dayset).length+'일':'';
+  var pc=$('#pickCard');
+  if(!list.length)pc.hidden=true;
+  else{
+    var w=pickWin(null);pc.hidden=false;$('#pickText').textContent=w.text;
+    $('#pickDate').textContent=fmtShort(w.date)+' '+WD[parseKey(w.date).getDay()]+'요일에 담았어요';
+    $('#pickAgain').hidden=list.length<2;
+  }
+  var bl=$('#boxList');bl.replaceChildren();
+  if(!list.length){bl.append(h('p',{class:'empty',text:ready?"아직 담긴 잘한 일이 없어요. 위에 적거나 '오늘' 화면에서 잘한 일을 적으면 여기에 모여요.":'불러오는 중이에요…'}));return;}
+  var groups={},order=[];
+  list.forEach(function(x){var mk=x.date.slice(0,7);if(!groups[mk]){groups[mk]=[];order.push(mk);}groups[mk].push(x);});
+  order.forEach(function(mk){
+    var p=mk.split('-'),ul=h('ul');
+    groups[mk].forEach(function(x){
+      var d=parseKey(x.date);
+      ul.append(h('li',{},h('button',{type:'button',class:'box-item','aria-label':fmtShort(x.date)+', '+x.text+', 그날 기록 보기',onclick:function(){S.date=x.date;setView('today');}},
+        h('span',{class:'box-date',text:(d.getMonth()+1)+'/'+d.getDate()+' '+WD[d.getDay()]}),
+        h('span',{class:'box-txt',text:x.text}))));
+    });
+    bl.append(h('section',{class:'box-month'},h('h3',{text:p[0]+'년 '+Number(p[1])+'월'}),ul));
+  });
+}
+
+/* ---------- thinking habit stats ---------- */
+function renderHabitStats(){
+  var tk=todayKey(),from=addDays(tk,-(S.range-1)),cnt={};
+  Object.keys(S.days).forEach(function(k){
+    if(k<from||k>tk)return;
+    S.days[k].thoughts.forEach(function(t){(t.habits||[]).forEach(function(x){if(HMAP[x])cnt[x]=(cnt[x]||0)+1;});});
+  });
+  $('#habitRange').textContent={14:'최근 2주',30:'최근 한 달',90:'최근 석 달'}[S.range]||'';
+  var ul=$('#habitBars'),tip=$('#habitTip');ul.replaceChildren();tip.textContent='';
+  var keys=Object.keys(cnt).sort(function(a,b){return cnt[b]-cnt[a];});
+  if(!keys.length){ul.append(h('li',{class:'empty',text:S.ready?'이 기간에 고른 생각 습관이 없어요. 생각 정리의 두 번째 질문에서 고를 수 있어요.':'불러오는 중이에요…'}));return;}
+  var max=cnt[keys[0]];
+  keys.forEach(function(k){
+    var f=h('span',{class:'hbar-fill'});f.style.width=Math.max(6,Math.round(cnt[k]/max*100))+'%';
+    ul.append(h('li',{class:'hbar'},h('span',{class:'hbar-name',text:HMAP[k].name}),h('span',{class:'hbar-track','aria-hidden':'true'},f),h('span',{class:'hbar-n',text:cnt[k]+'번'})));
+  });
+  var top=HMAP[keys[0]];
+  tip.textContent='가장 자주 나온 건 \''+top.name+'\'예요. 다음에 또 떠오르면 이렇게 물어봐요. '+top.q;
 }
 function setView(v){
   S.view=v;try{history.replaceState(null,'','#'+v);}catch(e){}
@@ -892,6 +1106,7 @@ function renderToday(){
     b.tabIndex=(d.mood?d.mood===v:v===3)?0:-1;b.disabled=!ready;
   });
   $('#moodLabel').textContent=d.mood?(MOODS[d.mood-1].w+' · '+MOODS[d.mood-1].feel):'지금 마음과 가까운 표정을 골라요';
+  renderNudge();
 
   var ta=$('#diary');
   if(document.activeElement!==ta||ta.dataset.date!==S.date){ta.value=d.diary;ta.dataset.date=S.date;}
@@ -912,7 +1127,11 @@ function renderToday(){
   var tl=$('#thoughts');tl.replaceChildren();
   d.thoughts.slice().sort(function(a,b){return (a.createdAt||'').localeCompare(b.createdAt||'');}).forEach(function(t){
     var dl=h('dl');
-    STEPS.forEach(function(st){var val=(t[st.key]||'').trim();dl.append(h('dt',{text:st.label}),h('dd',{class:val?'':'none',text:val||'적지 않음'}));});
+    STEPS.forEach(function(st){
+      var val=(t[st.key]||'').trim();dl.append(h('dt',{text:st.label}),h('dd',{class:val?'':'none',text:val||'적지 않음'}));
+      if(st.key==='thought'&&t.habits&&t.habits.length)
+        dl.append(h('dt',{text:'생각 습관'}),h('dd',{},h('span',{class:'tags'},t.habits.map(function(k){return h('span',{class:'tag',text:HMAP[k].name});}))));
+    });
     tl.append(h('article',{class:'tcard'},
       h('div',{class:'tcard-head'},h('span',{class:'tcard-time',text:t.createdAt?fmtTime(t.createdAt)+' 기록':'기록'}),
         confirmDelete('지우기',function(){editDay(S.date,function(dd){dd.thoughts=dd.thoughts.filter(function(x){return x.id!==t.id;});});renderToday();toast('생각 정리 기록을 지웠어요');})),
@@ -959,7 +1178,7 @@ function renderParked(){
 
 function renderFlow(){
   Array.prototype.forEach.call(document.querySelectorAll('#rangeSeg button'),function(b){b.setAttribute('aria-pressed',String(+b.dataset.range===S.range));});
-  renderChart();renderCalendar();
+  renderChart();renderHabitStats();renderCalendar();
 }
 function renderChart(){
   var svg=$('#chart'),wrap=$('#chartWrap');
@@ -1024,7 +1243,7 @@ var lastFocus=null;
 function openOverlay(id){lastFocus=document.activeElement;$(id).hidden=false;document.body.style.overflow='hidden';}
 function closeOverlay(id){$(id).hidden=true;document.body.style.overflow='';if(lastFocus&&document.body.contains(lastFocus))lastFocus.focus();}
 
-function blankTr(day){return {step:0,day:day,parkedId:null,data:{fact:'',thought:'',friend:'',step:''}};}
+function blankTr(day){return {step:0,day:day,parkedId:null,data:{fact:'',thought:'',friend:'',step:'',habits:[]}};}
 function openTr(item){
   if(item){S.tr=blankTr(todayKey());S.tr.parkedId=item.id;S.tr.data.thought=item.text;}
   else if(!S.tr)S.tr=blankTr(S.date);
@@ -1040,13 +1259,17 @@ function renderTr(){
   $('#trQ').textContent=st.q;$('#trHelp').textContent=st.help;
   $('#trFrom').hidden=!tr.parkedId;
   var ta=$('#trText');ta.value=tr.data[st.key];ta.placeholder=st.ph;autosize(ta);
+  var hb=$('#trHabits');hb.hidden=st.key!=='thought';
+  Array.prototype.forEach.call(document.querySelectorAll('.habit'),function(b){b.setAttribute('aria-pressed',String(tr.data.habits.indexOf(b.dataset.k)>=0));});
+  var rf=$('#trReframe');rf.hidden=!(st.key==='friend'&&tr.data.habits.length);
+  if(!rf.hidden){var ul=$('#reframeList');ul.replaceChildren();tr.data.habits.forEach(function(k){ul.append(h('li',{},h('b',{text:HMAP[k].name}),HMAP[k].q));});}
   $('#trPrev').disabled=tr.step===0;
   $('#trNext').textContent=tr.step===STEPS.length-1?'저장하기':'다음';
 }
 function saveTr(){
   var tr=S.tr,dt=tr.data;
-  if(!STEPS.some(function(s){return dt[s.key].trim();})){toast('한 칸 이상 적어야 저장돼요');return;}
-  var rec={id:newId(),fact:dt.fact.trim(),thought:dt.thought.trim(),friend:dt.friend.trim(),step:dt.step.trim(),createdAt:nowISO()};
+  if(!STEPS.some(function(s){return dt[s.key].trim();})&&!dt.habits.length){toast('한 칸 이상 적어야 저장돼요');return;}
+  var rec={id:newId(),fact:dt.fact.trim(),thought:dt.thought.trim(),friend:dt.friend.trim(),step:dt.step.trim(),habits:dt.habits.slice(),createdAt:nowISO()};
   editDay(tr.day,function(d){d.thoughts.push(rec);});
   if(tr.parkedId)release(tr.parkedId,'organized');
   var day=tr.day;S.tr=null;
@@ -1083,17 +1306,40 @@ function build(){
   });
   var lg=$('#legend');MOODS.slice().reverse().forEach(function(md){lg.append(h('span',{},faceSVG(md.v),md.w+' · '+md.feel));});
 
+  var hg=$('#habitGrid');
+  HABITS.forEach(function(x){
+    var b=h('button',{type:'button',class:'habit','data-k':x.k,'aria-pressed':'false'},h('b',{text:x.name}),h('span',{text:'예: '+x.ex}));
+    b.addEventListener('click',function(){
+      var a=S.tr.data.habits,i=a.indexOf(x.k);
+      if(i>=0)a.splice(i,1);else a.push(x.k);
+      b.setAttribute('aria-pressed',String(i<0));
+    });
+    hg.append(b);
+  });
+
+  $('#openBox').addEventListener('click',function(){setView('wins');});
+  $('#pickAgain').addEventListener('click',function(){rerollWin(null);renderBox();});
+  $('#boxForm').addEventListener('submit',function(e){
+    e.preventDefault();var inp=$('#boxInput'),v=inp.value.trim();if(!v||!S.ready)return;
+    var id=newId();editDay(todayKey(),function(d){d.wins.push({id:id,text:v});});
+    inp.value='';S.pickWin=id;renderBox();inp.focus();toast('상자에 담았어요');
+  });
+
   Array.prototype.forEach.call(document.querySelectorAll('.tab'),function(t){t.addEventListener('click',function(){setView(t.dataset.view);});});
   $('.tabs').addEventListener('keydown',function(e){
     if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;
-    var order=['today','parked','flow'],i=order.indexOf(S.view);i=(i+(e.key==='ArrowRight'?1:2))%3;setView(order[i]);$('#tab-'+order[i]).focus();
+    var n=VIEWS.length,i=VIEWS.indexOf(S.view);i=(i+(e.key==='ArrowRight'?1:n-1))%n;setView(VIEWS[i]);$('#tab-'+VIEWS[i]).focus();
   });
   $('#prevDay').addEventListener('click',function(){S.date=addDays(S.date,-1);renderToday();});
   $('#nextDay').addEventListener('click',function(){if(S.date<todayKey()){S.date=addDays(S.date,1);renderToday();}});
   $('#parkBannerBtn').addEventListener('click',function(){setView('parked');});
 
   var ta=$('#diary');
-  ta.addEventListener('input',function(){var k=ta.dataset.date||S.date,v=ta.value;editDay(k,function(d){d.diary=v;});autosize(ta);$('#diaryCount').textContent=v?v.length+'자':'';});
+  ta.addEventListener('input',function(){
+    var k=ta.dataset.date||S.date,v=ta.value,was=!!dayOf(k).diary.trim();
+    editDay(k,function(d){d.diary=v;});autosize(ta);$('#diaryCount').textContent=v?v.length+'자':'';
+    if(was!==!!v.trim())renderNudge();
+  });
   ta.addEventListener('blur',function(){saveLocal();scheduleSync(300);});
 
   $('#winForm').addEventListener('submit',function(e){
@@ -1150,7 +1396,7 @@ function build(){
     S.days={};S.parked={items:[]};S.tombs={};loadLocal();renderAll();
   });
 
-  var hv=(location.hash||'').slice(1);if(hv==='parked'||hv==='flow'||hv==='today')S.view=hv;
+  var hv=(location.hash||'').slice(1);if(VIEWS.indexOf(hv)>=0)S.view=hv;
 }
 
 /* ---------- entry lock (들어가기 비밀번호) ---------- */
