@@ -223,6 +223,20 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
 .guide b{color:var(--ink);font-weight:600}
 .sync-state{margin:0;font-size:15px;display:flex;flex-direction:column;gap:4px}
 .sync-state .big{font-weight:600}
+/* entry lock */
+.gate{position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:24px 16px calc(24px + env(safe-area-inset-bottom,0px));overflow:auto}
+.gate-card{width:100%;max-width:360px;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;margin:auto}
+.gate-sun{width:56px;height:56px;border-radius:50%;background:var(--sun);box-shadow:0 0 0 12px var(--sun-soft);margin-bottom:16px}
+.gate-title{font-family:var(--display);font-weight:700;font-size:42px;line-height:1;margin:0}
+.gate-sub{margin:0;color:var(--ink-2);font-size:15px;text-wrap:balance}
+.gate-form{width:100%;display:flex;flex-direction:column;gap:12px;margin-top:14px;text-align:left}
+.gate-form label{font-size:14px;font-weight:600}
+.gate-form input{padding:12px 14px;border-radius:12px;line-height:1.4;font-size:18px;letter-spacing:.12em}
+.gate-form .btn{width:100%;padding:13px;font-size:16px}
+.gate-links{display:flex;flex-direction:column;gap:10px;align-items:center;font-size:14px;width:100%}
+.gate-links .pactions{justify-content:center}
+.gate-note{margin:0;font-size:13px;color:var(--ink-2);text-wrap:balance}
+.gate-note:empty{display:none}
 .lockline{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--ink-2);background:var(--surface-2);border-radius:12px;padding:10px 12px}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,16px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:60;max-width:calc(100% - 32px);text-align:center}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -230,6 +244,23 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
 </style>
 </head>
 <body>
+
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <span class="gate-sun" aria-hidden="true"></span>
+    <h1 class="gate-title">맑음 일기</h1>
+    <p class="gate-sub" id="gateSub">잠시만 기다려 주세요…</p>
+    <form class="gate-form" id="gateForm" autocomplete="off" novalidate>
+      <div class="field" id="gCurRow"><label for="gCur" id="gCurLabel">비밀번호</label><input type="password" id="gCur" autocomplete="off"></div>
+      <div class="field" id="gNewRow" hidden><label for="gNew" id="gNewLabel">비밀번호</label><input type="password" id="gNew" autocomplete="new-password"></div>
+      <div class="field" id="gNew2Row" hidden><label for="gNew2" id="gNew2Label">한 번 더 입력</label><input type="password" id="gNew2" autocomplete="new-password"></div>
+      <p class="sync-msg" id="gateMsg" role="alert"></p>
+      <button class="btn primary" type="submit" id="gateGo">들어가기</button>
+    </form>
+    <div class="gate-links" id="gateLinks"></div>
+    <p class="gate-note" id="gateNote"></p>
+  </div>
+</div>
 
 <div class="app">
   <header class="top">
@@ -348,6 +379,11 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
       <button class="btn soft small" type="button" id="openSync">구글 시트 연결 설정</button>
     </div>
     <div class="backup">
+      <h2>들어가기 비밀번호</h2>
+      <button class="btn ghost small" type="button" id="lockBtn">지금 잠그기</button>
+      <button class="btn ghost small" type="button" id="changePinBtn">비밀번호 바꾸기</button>
+    </div>
+    <div class="backup">
       <h2>백업</h2>
       <button class="btn ghost small" type="button" id="exportBtn">백업 파일 내보내기</button>
       <button class="btn ghost small" type="button" id="importBtn">백업 불러오기</button>
@@ -396,17 +432,17 @@ details.block>summary .hint{font-weight:400;margin-left:6px}
           <input type="url" id="syncUrl" placeholder="https://script.google.com/macros/s/…/exec" inputmode="url" spellcheck="false" autocapitalize="off">
         </div>
         <div class="field">
-          <label for="syncPw">비밀번호</label>
+          <label for="syncPw">시트 비밀번호</label>
           <input type="password" id="syncPw" autocomplete="current-password">
         </div>
         <div class="field" id="pw2Row" hidden>
-          <label for="syncPw2">비밀번호 확인</label>
+          <label for="syncPw2">시트 비밀번호 확인</label>
           <input type="password" id="syncPw2" autocomplete="new-password">
         </div>
         <p class="sync-msg" id="syncMsg" role="status"></p>
         <button class="btn primary" type="submit" id="syncGo">연결하기</button>
       </form>
-      <p class="lockline">비밀번호는 이 기기에 열쇠 형태로만 기억되고, 시트나 GitHub에는 저장되지 않아요. 비밀번호를 잊으면 시트의 기록을 되살릴 수 없어요.</p>
+      <p class="lockline">시트 비밀번호는 들어가기 비밀번호와 따로예요. 기록을 암호화하는 데 쓰여서 8자 이상으로 정해요. 이 기기에 열쇠 형태로만 기억되고, 시트나 GitHub에는 저장되지 않아요. 잊으면 시트의 기록을 되살릴 수 없어요.</p>
       <details class="guide">
         <summary>처음이라면: 구글 시트 준비하는 법</summary>
         <ol>
@@ -1092,7 +1128,7 @@ function build(){
   $('#syncNowBtn').addEventListener('click',function(){S.syncErr=null;syncNow();});
 
   document.addEventListener('keydown',function(e){
-    if(e.key!=='Escape')return;
+    if(e.key!=='Escape'||G.locked)return;
     if(!$('#syncOverlay').hidden)closeOverlay('#syncOverlay');
     else if(!$('#trOverlay').hidden)closeTr();
   });
@@ -1110,19 +1146,123 @@ function build(){
   window.addEventListener('online',function(){syncNow();});
   setInterval(function(){if(document.visibilityState==='visible'&&connected()&&!S.syncing)syncNow();},60000);
   window.addEventListener('storage',function(e){
-    if(e.key!==LS_KEY||Object.keys(S.dirty).length)return;
+    if(!G.booted||e.key!==LS_KEY||Object.keys(S.dirty).length)return;
     S.days={};S.parked={items:[]};S.tombs={};loadLocal();renderAll();
   });
 
   var hv=(location.hash||'').slice(1);if(hv==='parked'||hv==='flow'||hv==='today')S.view=hv;
 }
 
+/* ---------- entry lock (들어가기 비밀번호) ---------- */
+var PIN_KEY='malgeum-pin-v1',PIN_ITER=150000,LOCK_AFTER=5*60*1000;
+var G={mode:null,booted:false,locked:true,hiddenAt:0,busy:false,memCfg:null,timer:null};
+function pinCfg(){try{var c=JSON.parse(localStorage.getItem(PIN_KEY)||'null');if(c&&c.salt&&c.hash)return c;}catch(e){}return G.memCfg;}
+function savePinCfg(c){G.memCfg=c;try{localStorage.setItem(PIN_KEY,JSON.stringify(c));}catch(e){}}
+async function pinHash(pin,salt){
+  var base=await crypto.subtle.importKey('raw',TE.encode(pin),'PBKDF2',false,['deriveBits']);
+  var bits=await crypto.subtle.deriveBits({name:'PBKDF2',salt:unb64url(salt),iterations:PIN_ITER,hash:'SHA-256'},base,256);
+  return b64url(new Uint8Array(bits));
+}
+function setInert(on){Array.prototype.forEach.call(document.body.children,function(el){if(el.id!=='gate'&&el.tagName!=='SCRIPT')el.inert=on;});}
+function gateMsg(t,err){var m=$('#gateMsg');m.textContent=t||'';m.classList.toggle('err',!!err);}
+function waitText(c){return '여러 번 틀려서 잠시 잠겼어요. '+Math.max(1,Math.ceil((c.until-Date.now())/1000))+'초 뒤에 다시 입력해 주세요.';}
+function tickWait(){
+  clearTimeout(G.timer);var c=pinCfg();
+  if(G.mode==='setup'||!c||!c.until||c.until<=Date.now()){$('#gateGo').disabled=false;if(c&&c.until)gateMsg('');return;}
+  $('#gateGo').disabled=true;gateMsg(waitText(c),true);G.timer=setTimeout(tickWait,1000);
+}
+function renderGateLinks(){
+  var l=$('#gateLinks');l.replaceChildren();
+  if(G.mode==='unlock')l.append(h('button',{class:'linkbtn',type:'button',onclick:forgotUI},'비밀번호를 잊었어요'));
+  if(G.mode==='change')l.append(h('button',{class:'linkbtn',type:'button',onclick:function(){hideGate();}},'취소'));
+}
+function forgotUI(){
+  $('#gateLinks').replaceChildren(
+    h('p',{class:'gate-note',text:'이 기기에 있는 기록과 구글 시트 연결 정보를 지우고 새로 시작해요. 시트에 연결해 두었다면 시트 비밀번호로 다시 연결해서 기록을 불러올 수 있어요. 연결하지 않았다면 이 기기의 기록은 되살릴 수 없어요.'}),
+    h('div',{class:'pactions'},
+      h('button',{class:'btn warn small',type:'button',onclick:resetDevice},'지우고 새로 시작'),
+      h('button',{class:'btn ghost small',type:'button',onclick:renderGateLinks},'취소')));
+}
+function resetDevice(){try{[LS_KEY,SYNC_KEY,PIN_KEY].forEach(function(k){localStorage.removeItem(k);});}catch(e){}G.memCfg=null;location.reload();}
+function showGate(mode){
+  G.mode=mode;G.locked=true;setInert(true);$('#gate').hidden=false;
+  ['#gCur','#gNew','#gNew2'].forEach(function(id){$(id).value='';});
+  $('#gCurRow').hidden=mode==='setup';
+  $('#gNewRow').hidden=mode==='unlock';$('#gNew2Row').hidden=mode==='unlock';
+  $('#gCurLabel').textContent=mode==='change'?'지금 비밀번호':'비밀번호';
+  $('#gNewLabel').textContent=mode==='change'?'새 비밀번호':'비밀번호';
+  $('#gNew2Label').textContent=mode==='change'?'새 비밀번호 한 번 더':'한 번 더 입력';
+  $('#gateSub').textContent={unlock:'들어가려면 비밀번호를 입력해 주세요.',setup:'이 기기에서 들어갈 때 쓸 비밀번호를 정해 주세요. 숫자 4자리처럼 간단해도 괜찮아요.',change:'들어가기 비밀번호를 바꿔요.'}[mode];
+  $('#gateGo').textContent={unlock:'들어가기',setup:'정하고 들어가기',change:'바꾸기'}[mode];
+  $('#gateNote').textContent=mode==='setup'?'이 비밀번호는 이 기기에만 기억돼요. 휴대폰과 컴퓨터에서 한 번씩 정해 주세요. 같은 비밀번호로 정해도 돼요.':'';
+  gateMsg('');renderGateLinks();tickWait();
+  setTimeout(function(){(mode==='setup'?$('#gNew'):$('#gCur')).focus();},30);
+}
+function hideGate(){
+  clearTimeout(G.timer);$('#gate').hidden=true;G.locked=false;setInert(false);
+  ['#gCur','#gNew','#gNew2'].forEach(function(id){$(id).value='';});
+  boot();
+}
+function boot(){
+  if(G.booted){renderAll();syncNow();return;}
+  G.booted=true;loadLocal();S.ready=true;
+  try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
+  renderAll();restoreSync();
+}
+function lockNow(){
+  if(G.locked)return;
+  if(G.booted)saveLocal();
+  if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();
+  showGate(pinCfg()?'unlock':'setup');
+}
+async function gateSubmit(){
+  if(G.busy)return;
+  var c=pinCfg(),cur=$('#gCur').value,n1=$('#gNew').value,n2=$('#gNew2').value,mode=G.mode;
+  if(!(window.crypto&&crypto.subtle))return gateMsg('이 브라우저에서는 비밀번호를 확인할 수 없어요. https 주소로 열어 주세요.',true);
+  if(mode!=='setup'){
+    if(c&&c.until&&c.until>Date.now())return tickWait();
+    if(!cur)return gateMsg('비밀번호를 입력해 주세요.',true);
+  }
+  if(mode!=='unlock'){
+    if(n1.length<4)return gateMsg('비밀번호는 4자 이상으로 정해 주세요.',true);
+    if(n1!==n2)return gateMsg('두 비밀번호가 서로 달라요.',true);
+  }
+  G.busy=true;$('#gateGo').disabled=true;gateMsg('확인하고 있어요…');
+  try{
+    if(mode!=='setup'){
+      if(!c){showGate('setup');return;}
+      if((await pinHash(cur,c.salt))!==c.hash){
+        c.fails=(c.fails||0)+1;
+        if(c.fails>=5)c.until=Date.now()+30000*Math.pow(2,Math.min(c.fails-5,5));
+        savePinCfg(c);$('#gCur').value='';$('#gCur').focus();
+        if(c.until&&c.until>Date.now())tickWait();else gateMsg('비밀번호가 맞지 않아요.',true);
+        return;
+      }
+      c.fails=0;c.until=0;
+    }
+    if(mode!=='unlock'){
+      var salt=b64url(crypto.getRandomValues(new Uint8Array(16)));
+      c={salt:salt,hash:await pinHash(n1,salt),fails:0,until:0};
+    }
+    savePinCfg(c);hideGate();
+    if(mode==='change')toast('들어가기 비밀번호를 바꿨어요');
+  }finally{G.busy=false;if(G.locked)tickWait();else $('#gateGo').disabled=false;}
+}
+function initGate(){
+  $('#gateForm').addEventListener('submit',function(e){e.preventDefault();gateSubmit();});
+  $('#lockBtn').addEventListener('click',lockNow);
+  $('#changePinBtn').addEventListener('click',function(){if(!G.locked)showGate('change');});
+  document.addEventListener('visibilitychange',function(){
+    if(document.visibilityState==='hidden')G.hiddenAt=Date.now();
+    else if(!G.locked&&G.hiddenAt&&Date.now()-G.hiddenAt>LOCK_AFTER)lockNow();
+  });
+  window.addEventListener('pageshow',function(e){if(e.persisted&&!G.locked&&G.hiddenAt&&Date.now()-G.hiddenAt>LOCK_AFTER)lockNow();});
+  showGate(pinCfg()?'unlock':'setup');
+}
+
 build();
-loadLocal();
-S.ready=true;
-try{if(navigator.storage&&navigator.storage.persist)navigator.storage.persist();}catch(e){}
 renderAll();
-restoreSync();
+initGate();
 })();
 </script>
 </body>
